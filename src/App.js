@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
+import Normal from './img/normal.jpg';
+import Cold from './img/cold.jpg';
+import Hot from './img/hot.jpg';
 
 function App() {
 
@@ -19,40 +22,55 @@ function App() {
   const date_day = date.getDate();
   const date_year = date.getFullYear();
 
-  function handleChange(e){
-    setPlace(e.target.value);
-  }
+  async function searchApi(e){
+    e.preventDefault();
 
-
-  const search = e => {
-    if(e.key === "Enter"){
-      fetch(`${weatherapi.url}weather?q=${place}&units=metric&appid=${weatherapi.key}`)
-      .then(j => j.json())
-      .then(result => {
-        setWeather(result);
-        setPlace('');
-        console.log(result);
-      })
+    const api = await fetch(`${weatherapi.url}weather?q=${place}&units=metric&appid=${weatherapi.key}`);
+    let data;
+    if(api.status === 404){
+      setPlace('');
+      alert("Place not found.");
     }
-  }
-
+    else{
+      data = await api.json()
+      setWeather(data)
+      setPlace('');
+      console.log(weather);
+    }
+      }
+  
   return (
     <div className="App">
+      <img src={Hot} />
       <div className="app-container">
 
         <h1>Weather App</h1>
+        <form onSubmit={searchApi} className="form-control">
+          <input type="text" placeholder="Search..." value={place} onChange={(e) => setPlace(e.target.value)} className="input-field" />
+          {/* <button type="submit" className="btn">Search</button> */}
+        </form>
 
-          <input type="text" placeholder="Search..." onChange={handleChange} value={place} onKeyPress={search}/>
+        {(typeof weather.main === "undefined") ? ('') : 
+        (<div>
+          <div className="result">
+            <h2>{weather.name}, {weather.sys.country}</h2>
+            <p>{date_week} {date_day} {date_month} {date_year}</p>
+            <h3>{Math.round(weather.main.temp)}°c</h3>
 
-        <div className="result">
-          <h2>{weather.name}, {weather.sys.country}</h2>
-          <p>{date_week} {date_day} {date_month} {date_year}</p>
-          <h3>{weather.main.temp}</h3>
-          <div className="min-max">
-            <h4>minimum</h4>
-            <h4>maximum</h4>
+            <div className="min-max">
+              <div className="min">
+                <h4>{Math.round(weather.main.temp_min)}°c</h4>
+                <p>min</p>
+              </div>
+              <div className="divider"></div>
+              <div className="min">
+                <h4>{Math.round(weather.main.temp_max)}°c</h4>
+                <p>max</p>
+              </div>
+            </div>
           </div>
-        </div>  
+        </div>)
+        }
       </div>
     </div>
   );
