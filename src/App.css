@@ -30,6 +30,12 @@ height: 100vh;
   -webkit-backdrop-filter: blur( 4px );
   border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
+.app-container .logo{
+  font-size: 2.4em;
+}
+.app-container .input-field{
+  margin-bottom: .8rem;
+}
 .app-container .input-field{
   border: none;
   border-bottom: 1px solid black;
@@ -40,6 +46,12 @@ height: 100vh;
   text-align: left;
   background: transparent;
 }
+.app-container .result .place{
+  font-style: italic;
+}
+.app-container .result h3{
+  font-size: 3em;
+}
 .app-container .result .min-max{
   display: flex;
   justify-content: space-around;
@@ -47,7 +59,7 @@ height: 100vh;
 .app-container .result .min-max .divider{
   border: 1px solid rgba(0, 0, 0, 0.541);
 }
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 560px) {
   .app-container{
     width: 80%;
   }

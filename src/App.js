@@ -22,6 +22,9 @@ function App() {
   const date_day = date.getDate();
   const date_year = date.getFullYear();
 
+  const h = date.getHours();
+  const m = date.getMinutes();
+
   async function searchApi(e){
     e.preventDefault();
 
@@ -37,14 +40,14 @@ function App() {
       setPlace('');
       console.log(weather);
     }
-      }
+  }
   
   return (
     <div className="App">
       <img src={Hot} />
       <div className="app-container">
-
-        <h1>Weather App</h1>
+        <h1>{h}:{m}</h1>
+        <h1 className="logo">Weather App</h1>
         <form onSubmit={searchApi} className="form-control">
           <input type="text" placeholder="Search..." value={place} onChange={(e) => setPlace(e.target.value)} className="input-field" />
           {/* <button type="submit" className="btn">Search</button> */}
@@ -54,7 +57,7 @@ function App() {
         (<div>
           <div className="result">
             <h2>{weather.name}, {weather.sys.country}</h2>
-            <p>{date_week} {date_day} {date_month} {date_year}</p>
+            <p className="place">{date_week} {date_day} {date_month} {date_year}</p>
             <h3>{Math.round(weather.main.temp)}°c</h3>
 
             <div className="min-max">
